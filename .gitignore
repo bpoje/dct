@@ -1,0 +1,25 @@
+#-----------------C++----------------------------
+# Compiled Object files
+*.slo
+*.lo
+*.o
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+
+# Executable binary
+dct
+
+#QT4 Files
+moc_*
+qrc_*
+*.pro
+
+#QT4 generated makefile
+Makefile
