@@ -17,5 +17,10 @@ qmake
 make
 ```
 
+Run:
+```
+./dct
+```
+
 Screenshot:
 ![Alt text](/images/screen.jpeg "Screenshot")
