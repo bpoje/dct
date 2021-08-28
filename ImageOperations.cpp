@@ -1,6 +1,6 @@
 #include "ImageOperations.h"
 #include <stdio.h>
-#include <QMessageBox>
+#include <QtWidgets/QMessageBox>
 
 ImageOperations::ImageOperations(QImage image)
 {
@@ -271,7 +271,7 @@ void ImageOperations::cDebugToFile(QString fileName, cArray2D *pArray, int heigh
 			//QString & QString::setNum ( int n, int base = 10 )
 			temp.setNum( i, 10 );
 			temp = "Row: " + temp + "\n";
-			file.write(temp.toAscii(), temp.length());
+			file.write(temp.toLatin1(), temp.length());
 
 			for (int j=0; j < width; j++)
 			{
@@ -280,7 +280,7 @@ void ImageOperations::cDebugToFile(QString fileName, cArray2D *pArray, int heigh
 				im.setNum( pArray->getAt(i,j).im(), 'g', 6);
 
 				msg = "(" + re + ", " + im + ")\n";
-				file.write(msg.toAscii(), msg.length());
+				file.write(msg.toLatin1(), msg.length());
 			}
 
 			file.write("\n", qstrlen("\n"));
@@ -913,7 +913,7 @@ void ImageOperations::dDebugToFile(QString fileName, dArray2D *pArray, int heigh
 				re.setNum( pArray->getAt(i,j), 'g', 6);
 
 				msg = re + "\t";
-				file.write(msg.toAscii(), msg.length());
+				file.write(msg.toLatin1(), msg.length());
 			}
 
 			file.write("\n", qstrlen("\n"));

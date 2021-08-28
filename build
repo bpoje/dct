@@ -1,3 +1,8 @@
-qmake -project "QMAKE_CXXFLAGS += -std=c++0x"
-qmake
+#!/bin/bash
+#qmake -project "QMAKE_CXXFLAGS += -std=c++0x"
+qmake-qt5 -project "QMAKE_CXXFLAGS += -std=c++0x" "QT += core gui widgets"
+
+#qmake
+qmake-qt5
+
 make

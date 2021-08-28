@@ -1,12 +1,12 @@
 #pragma once
 
-#include <QDialog>
-#include <QLabel>
-#include <QGroupBox>
-#include <QComboBox>
+#include <QtWidgets/QDialog>
+#include <QtWidgets/QLabel>
+#include <QtWidgets/QGroupBox>
+#include <QtWidgets/QComboBox>
 #include <QList>
-#include <QPushButton>
-#include <QMessageBox>
+#include <QtWidgets/QPushButton>
+#include <QtWidgets/QMessageBox>
 #include "ImageDisplay.h"
 
 class ConvolutionDialog : public QDialog

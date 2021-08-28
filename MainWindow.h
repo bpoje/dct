@@ -1,12 +1,13 @@
 #pragma once
 
-#include <QMainWindow>
-#include <QWorkspace>
+#include <QtWidgets/QMainWindow>
+//#include <QWorkspace> deprecated
+#include <QtWidgets/QMdiArea>
 #include <QCloseEvent>
-#include <QMenu>
-#include <QToolBar>
-#include <QMenuBar>
-#include <QStatusBar>
+#include <QtWidgets/QMenu>
+#include <QtWidgets/QToolBar>
+#include <QtWidgets/QMenuBar>
+#include <QtWidgets/QStatusBar>
 #include "ImageDisplay.h"
 #include "ImageOperations.h"
 #include "ConvolutionDialog.h"
@@ -54,7 +55,8 @@ private:
 	ImageDisplay *createImageDisplay(int maxCurrentHeight, int maxCurrentWidth);
 	ImageDisplay *activeImageDisplay();
 
-	QWorkspace *workspace;
+	//QWorkspace *workspace; deprecated
+	QMdiArea *workspace;
 
 	QMenu *fileMenu;
 	QMenu *editMenu;

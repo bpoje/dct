@@ -1,15 +1,15 @@
 #pragma once
 
-#include <QWidget>
-#include <QLabel>
-#include <QScrollArea>
-#include <QAction>
-#include <QMessageBox>
-#include <QVBoxLayout>
-#include <QGroupBox>
-#include <QLineEdit>
-#include <QAction>
-#include <QFileDialog>
+#include <QtWidgets/QWidget>
+#include <QtWidgets/QLabel>
+#include <QtWidgets/QScrollArea>
+#include <QtWidgets/QAction>
+#include <QtWidgets/QMessageBox>
+#include <QtWidgets/QVBoxLayout>
+#include <QtWidgets/QGroupBox>
+#include <QtWidgets/QLineEdit>
+#include <QtWidgets/QAction>
+#include <QtWidgets/QFileDialog>
 #include <QCloseEvent>
 
 class ImageDisplay : public QWidget

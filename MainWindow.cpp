@@ -1,8 +1,11 @@
 #include "MainWindow.h"
+#include <QMdiArea>
+#include <QMdiSubWindow>
 
 MainWindow::MainWindow(QRect screenRect)
 {
-	workspace = new QWorkspace;
+	//workspace = new QWorkspace; deprecated
+	workspace = new QMdiArea;
 	setCentralWidget(workspace);
 	//connect(workspace, SIGNAL(windowActivated(QWidget *)),
 	//        this, SLOT(updateMenus()));
@@ -23,7 +26,8 @@ MainWindow::MainWindow(QRect screenRect)
 //receive a close event.
 void MainWindow::closeEvent(QCloseEvent *event)
 {
-	workspace->closeAllWindows();
+	//workspace->closeAllWindows(); deprecated
+	workspace->closeAllSubWindows();
 	if (activeImageDisplay())
 	{
 		event->ignore();
@@ -38,7 +42,17 @@ void MainWindow::closeEvent(QCloseEvent *event)
 //or a null pointer if there isn't one.
 ImageDisplay *MainWindow::activeImageDisplay()
 {
-	return qobject_cast<ImageDisplay *>(workspace->activeWindow());
+	//return qobject_cast<ImageDisplay *>(workspace->activeWindow()); deprecated
+	return qobject_cast<ImageDisplay *>( (QObject*) workspace->activeSubWindow() );
+
+	//QMdiSubWindow *test1 = workspace->activeSubWindow();
+	//QObject *test2 = (QObject *) test1;
+	//qobject_cast<ImageDisplay *>( test2 );
+
+	//return qobject_cast<ImageDisplay *>(workspace->activeSubWindow());
+	//return qobject_cast<ImageDisplay *>(workspace->activeSubWindow());
+	//return qobject_cast<ImageDisplay *>(workspace->activeSubWindow());
+	//return qobject_cast<QMdiSubWindow *>(workspace->activeSubWindow());
 }
 
 void MainWindow::createActions()
@@ -70,34 +84,41 @@ void MainWindow::createActions()
 	closeAction->setShortcut(tr("Ctrl+F4"));
 	closeAction->setStatusTip(tr("Close the active window"));
 	connect(closeAction, SIGNAL(triggered()),
-	        workspace, SLOT(closeActiveWindow()));
+	        workspace, SLOT(closeActiveSubWindow()));
 
 	closeAllAction = new QAction(tr("Close &All"), this);
 	closeAllAction->setStatusTip(tr("Close all windows"));
 	connect(closeAllAction, SIGNAL(triggered()),
-	        workspace, SLOT(closeAllWindows()));
+	        workspace, SLOT(closeAllSubWindows()));
 
 	tileAction = new QAction(tr("&Tile"), this);
 	tileAction->setStatusTip(tr("Tile the windows"));
-	connect(tileAction, SIGNAL(triggered()), workspace, SLOT(tile()));
+	//connect(tileAction, SIGNAL(triggered()), workspace, SLOT(tile()));
+	connect(tileAction, SIGNAL(triggered()), workspace, SLOT(tileSubWindows()));
 
 	cascadeAction = new QAction(tr("&Cascade"), this);
 	cascadeAction->setStatusTip(tr("Cascade the windows"));
+	//connect(cascadeAction, SIGNAL(triggered()),
+	//        workspace, SLOT(cascade()));
 	connect(cascadeAction, SIGNAL(triggered()),
-	        workspace, SLOT(cascade()));
+	        workspace, SLOT(cascadeSubWindows()));
 
 	nextAction = new QAction(tr("Ne&xt"), this);
 	nextAction->setShortcut(tr("Ctrl+F6"));
 	nextAction->setStatusTip(tr("Move the focus to the next window"));
+	//connect(nextAction, SIGNAL(triggered()),
+	//        workspace, SLOT(activateNextWindow()));
 	connect(nextAction, SIGNAL(triggered()),
-	        workspace, SLOT(activateNextWindow()));
+                workspace, SLOT(activateNextSubWindow()));
 
 	previousAction = new QAction(tr("Pre&vious"), this);
 	previousAction->setShortcut(tr("Ctrl+Shift+F6"));
 	previousAction->setStatusTip(tr("Move the focus to the previous "
 	                                "window"));
+	//connect(previousAction, SIGNAL(triggered()),
+	//        workspace, SLOT(activatePreviousWindow()));
 	connect(previousAction, SIGNAL(triggered()),
-	        workspace, SLOT(activatePreviousWindow()));
+                workspace, SLOT(activatePreviousSubWindow()));
 
 	separatorAction = new QAction(this);
 	separatorAction->setSeparator(true);
@@ -194,7 +215,9 @@ void MainWindow::createStatusBar()
 	statusBar()->addWidget(imageSizeLabel, 1);
 	statusBar()->setBackgroundRole(QPalette::Light);
 
-	connect(workspace, SIGNAL(windowActivated(QWidget *)),
+	//connect(workspace, SIGNAL(windowActivated(QWidget *)),
+	//        this, SLOT(updateStatusBar()));
+	connect(workspace, SIGNAL(subWindowActivated(QMdiSubWindow *)),
 	        this, SLOT(updateStatusBar()));
 
 	updateStatusBar();
@@ -224,7 +247,10 @@ ImageDisplay *MainWindow::createImageDisplay(int maxCurrentHeight, int maxCurren
 {
 	ImageDisplay *imageDisplay = new ImageDisplay(this, maxCurrentHeight, maxCurrentWidth);
 
-	workspace->addWindow(imageDisplay);
+	printf("height: %d\n", workspace->height());
+
+	//workspace->addWindow(imageDisplay); deprecated
+	workspace->addSubWindow(imageDisplay);
 	windowMenu->addAction(imageDisplay->windowMenuAction());
 	windowActionGroup->addAction(imageDisplay->windowMenuAction());
 
@@ -240,6 +266,8 @@ void MainWindow::newFile()
 
 void MainWindow::open()
 {
+	printf("height: %d\n", workspace->height());
+
 	ImageDisplay *imageDisplay = createImageDisplay(workspace->height(), workspace->width());
 	if (imageDisplay->open())
 	{
